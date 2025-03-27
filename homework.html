@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Köpek Resimleri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3f3f3;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        img {
+            margin-top: 20px;
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Köpek Resmi Göster</h1>
+    <button onclick="fetchDogImage()">Yeni Resim Getir</button>
+    <div>
+        <img id="dogImage" src="" alt="Köpek Resmi">
+    </div>
+
+    <script>
+        async function fetchDogImage() {
+            try {
+                const response = await fetch('https://api.thedogapi.com/v1/images/search');
+                const data = await response.json();
+                const imgUrl = data[0].url;
+                document.getElementById('dogImage').src = imgUrl;
+            } catch (error) {
+                console.error("Bir hata oluştu:", error);
+            }
+        }
+
+        // Sayfa açıldığında ilk resmi getir
+        fetchDogImage();
+    </script>
+
+</body>
+</html>
