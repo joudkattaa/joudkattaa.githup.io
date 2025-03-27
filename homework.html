@@ -3,32 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Köpek Resimleri</title>
+    <title>The Dog API - Köpek Resimleri</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f3f3f3;
+            padding: 20px;
+        }
+        #dogImage {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
         }
         button {
-            padding: 10px;
-            font-size: 16px;
-            background-color: #008CBA;
+            padding: 10px 20px;
+            background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
-        }
-        img {
+            font-size: 16px;
             margin-top: 20px;
-            width: 300px;
-            height: auto;
-            border-radius: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
-    <h1>Köpek Resmi Göster</h1>
+    <h1>Köpek Resimleri</h1>
+    <p>Rasgele bir köpek resmi görmek için butona tıklayın:</p>
     <button onclick="fetchDogImage()">Yeni Resim Getir</button>
     <div>
         <img id="dogImage" src="" alt="Köpek Resmi">
@@ -36,9 +40,11 @@
 
     <script>
         async function fetchDogImage() {
+            // API'den köpek resmi almak için fetch kullanıyoruz
             try {
                 const response = await fetch('https://api.thedogapi.com/v1/images/search');
                 const data = await response.json();
+                // Resmi sayfada göstermek için
                 const imgUrl = data[0].url;
                 document.getElementById('dogImage').src = imgUrl;
             } catch (error) {
@@ -46,7 +52,7 @@
             }
         }
 
-        // Sayfa açıldığında ilk resmi getir
+        // Sayfa yüklendiğinde bir resim al
         fetchDogImage();
     </script>
 
