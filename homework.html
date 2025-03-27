@@ -3,58 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Dog API - Köpek Resimleri</title>
+    <title>Rastgele Hayvan Fotoğrafları</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #dfdfdf;
             padding: 20px;
         }
-        #dogImage {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
+        h2{
+            color: gray;
+            padding: 20px;
+            margin: 0;
+            border-bottom: 1px solid rgb(74, 74, 74);
+            text-align: center;
         }
         button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4fa8ae;
             color: white;
             border: none;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
+            border-radius: 5px;
+            margin: 10px;
+            transition: 0.3s;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
         }
         button:hover {
-            background-color: #45a049;
+            background: #81afb2;
+            transform: scale(1.1);
+        }
+        img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid rgb(74, 74, 74);
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
+    <h2>Rastgele Hayvan Fotoğrafları</h2>
+    
+    <button onclick="getImage('cat')">Kedi</button>
+    <button onclick="getImage('dog')">Köpek</button>
+    <button onclick="getImage('fox')">Tilki</button>
 
-    <h1>Köpek Resimleri</h1>
-    <p>Rasgele bir köpek resmi görmek için butona tıklayın:</p>
-    <button onclick="fetchDogImage()">Yeni Resim Getir</button>
     <div>
-        <img id="dogImage" src="" alt="Köpek Resmi">
+        <img id="animalImage" src="" alt="Hayvan Fotoğrafı">
     </div>
 
     <script>
-        async function fetchDogImage() {
-            // API'den köpek resmi almak için fetch kullanıyoruz
-            try {
-                const response = await fetch('https://api.thedogapi.com/v1/images/search');
-                const data = await response.json();
-                // Resmi sayfada göstermek için
-                const imgUrl = data[0].url;
-                document.getElementById('dogImage').src = imgUrl;
-            } catch (error) {
-                console.error("Bir hata oluştu:", error);
+        function getImage(animal) {
+            let apiUrl = "";
+
+            if (animal === "cat") {
+                apiUrl = "https://api.thecatapi.com/v1/images/search";
+            } else if (animal === "dog") {
+                apiUrl = "https://dog.ceo/api/breeds/image/random";
+            } else if (animal === "fox") {
+                apiUrl = "https://randomfox.ca/floof/";
             }
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    let imageUrl = "";
+                    if (animal === "cat") {
+                        imageUrl = data[0].url;
+                    } else if (animal === "dog") {
+                        imageUrl = data.message;
+                    } else if (animal === "fox") {
+                        imageUrl = data.image;
+                    }
+                    document.getElementById("animalImage").src = imageUrl;
+                })
+                .catch(error => console.error("Hata oluştu:", error));
         }
-
-        // Sayfa yüklendiğinde bir resim al
-        fetchDogImage();
     </script>
-
 </body>
 </html>
